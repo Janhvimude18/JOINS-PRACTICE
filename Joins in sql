@@ -1,0 +1,105 @@
+#JOINS PRACTICE
+-- Create Database
+CREATE DATABASE AirlineDB;
+USE AirlineDB;
+
+-- Table 1: Airlines
+CREATE TABLE Airlines (
+    AirlineID INT PRIMARY KEY,
+    AirlineName VARCHAR(50),
+    Country VARCHAR(50)
+);
+
+INSERT INTO Airlines VALUES
+(1, 'Air India', 'India'),
+(2, 'Emirates', 'UAE'),
+(3, 'Lufthansa', 'Germany'),
+(4, 'Delta Airlines', 'USA');
+
+
+-- Table 2: Flights
+CREATE TABLE Flights (
+    FlightID INT PRIMARY KEY,
+    AirlineID INT,
+    Source VARCHAR(50),
+    Destination VARCHAR(50),
+    DepartureTime DATETIME,
+    ArrivalTime DATETIME,
+    FOREIGN KEY (AirlineID) REFERENCES Airlines(AirlineID)
+);
+
+INSERT INTO Flights VALUES
+(101, 1, 'Delhi', 'Mumbai', '2025-10-01 08:00:00', '2025-10-01 10:30:00'),
+(102, 2, 'Dubai', 'London', '2025-10-02 14:00:00', '2025-10-02 18:30:00'),
+(103, 3, 'Frankfurt', 'New York', '2025-10-03 09:00:00', '2025-10-03 15:00:00'),
+(104, 4, 'Atlanta', 'Los Angeles', '2025-10-04 07:00:00', '2025-10-04 10:00:00'),
+(105, 1, 'Mumbai', 'Chennai', '2025-10-05 11:00:00', '2025-10-05 13:00:00');
+
+
+-- Table 3: Passengers
+CREATE TABLE Passengers (
+    PassengerID INT PRIMARY KEY,
+    FullName VARCHAR(100),
+    Age INT,
+    Gender VARCHAR(10),
+    PassportNo VARCHAR(20) UNIQUE
+);
+
+INSERT INTO Passengers VALUES
+(201, 'Janvi Khana', 28, 'Male', 'IND12345'),
+(202, 'arya bhat', 32, 'Female', 'IND67890'),
+(203, 'jony deliv', 40, 'Male', 'USA54321'),
+(204, 'eliyana desuza', 25, 'Female', 'UK98765'),
+(205, 'Raj Patel', 35, 'Male', 'IND24680');
+
+
+-- Table 4: Bookings
+CREATE TABLE Bookings (
+    BookingID INT PRIMARY KEY,
+    PassengerID INT,
+    FlightID INT,
+    SeatNo VARCHAR(10),
+    BookingDate DATE,
+    FOREIGN KEY (PassengerID) REFERENCES Passengers(PassengerID),
+    FOREIGN KEY (FlightID) REFERENCES Flights(FlightID)
+);
+INSERT INTO Bookings VALUES
+(301, 201, 101, '12A', '2025-09-20'),
+(302, 202, 101, '12B', '2025-09-20'),
+(303, 203, 102, '15C', '2025-09-22'),
+(304, 204, 103, '18D', '2025-09-23'),
+(305, 205, 105, '20A', '2025-09-25');
+
+#INNER JOIN (Passengers with their Flight Details)
+SELECT p.FullName, f.FlightID, f.Source, f.Destination, a.AirlineName
+FROM Passengers p
+INNER JOIN Bookings b ON p.PassengerID = b.PassengerID
+INNER JOIN Flights f ON b.FlightID = f.FlightID
+INNER JOIN Airlines a ON f.AirlineID = a.AirlineID;
+
+
+# LEFT JOIN (All Flights and their Bookings, even if no passengers yet)
+SELECT f.FlightID, f.Source, f.Destination,  b.BookingID, p.FullName
+FROM Flights f
+LEFT JOIN Bookings b ON f.FlightID = b.FlightID
+LEFT JOIN Passengers p ON b.PassengerID = p.PassengerID;
+
+#RIGHT JOIN (All Passengers, even if they don’t have a booking)
+
+SELECT p.FullName, b.BookingID, f.FlightID
+FROM Passengers p
+RIGHT JOIN Bookings b ON p.PassengerID = b.PassengerID
+RIGHT JOIN Flights f ON b.FlightID = f.FlightID;
+
+#FULL OUTER JOIN (Passengers & Flights – show everything)
+#In MySQL use UNION since FULL OUTER JOIN isn’t directly supported
+SELECT p.FullName, f.FlightID, f.Source, f.Destination
+FROM Passengers p
+LEFT JOIN Bookings b ON p.PassengerID = b.PassengerID
+LEFT JOIN Flights f ON b.FlightID = f.FlightID
+UNION
+SELECT p.FullName, f.FlightID, f.Source, f.Destination
+FROM Passengers p
+RIGHT JOIN Bookings b ON p.PassengerID = b.PassengerID
+RIGHT JOIN Flights f ON b.FlightID = f.FlightID;
+
