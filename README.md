@@ -46,3 +46,15 @@ The database simulates an **Airline Management System** with the following entit
 ## 🎯 Learning Outcome
 
 This project demonstrates how different **SQL JOINS** work in real-world scenarios like **airline management systems**. It improved my understanding of **relational database concepts, data linking, and query optimization**.
+
+
+#OUTPUT
+<img width="1920" height="1008" alt="Image" src="https://github.com/user-attachments/assets/db43d69b-7b07-423d-bf3b-173aac217f4a" />
+
+<img width="1920" height="1008" alt="Image" src="https://github.com/user-attachments/assets/a54dffed-9171-42dd-9bc3-298e0ae4cb28" />
+
+<img width="1920" height="1008" alt="Image" src="https://github.com/user-attachments/assets/c70d1659-8d2e-47cc-805e-eb248b66f953" />
+
+<img width="1920" height="1008" alt="Image" src="https://github.com/user-attachments/assets/a024a810-0ceb-47c7-86ef-40e1c2b2dca1" />
+
+<img width="1920" height="1008" alt="Image" src="https://github.com/user-attachments/assets/91ed9e0f-9d10-4c38-8bed-c9615c30fac4" />
